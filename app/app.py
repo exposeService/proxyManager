@@ -11,7 +11,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     privkey, pubkey = generate_wireguard_keys()
-    return "privkey: " + privkey + ", pubkey: " + pubkey
+    return "private: " + privkey + ", public: " + pubkey
 
 if __name__ == '__main__':
     app.run()
