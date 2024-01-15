@@ -27,7 +27,7 @@ FROM python:3.9.10-alpine
 
 COPY --from=builder /usr/bin/wireguard-go /usr/bin/wg* /usr/bin/
 
-WORKDIR /
+WORKDIR /app
 
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
@@ -40,5 +40,5 @@ RUN pip install --upgrade setuptools
 RUN pip install -r requirements.txt
 
 COPY ./app .
-CMD ["flask", "run"]
+CMD ["python3", "app.py"]
 

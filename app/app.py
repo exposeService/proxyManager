@@ -18,10 +18,8 @@ def index():
     containers = client.containers.list()
     ids = []
     for c in containers:
-        print(c.id)
         ids.append(c.id)
-    container = client.containers.get("0cb48e392806")
-    return { "0cb48e392806": container.attrs["Config"], "id": ids }
+    return { "id": ids }
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host="0.0.0.0", port=5000)
