@@ -11,13 +11,17 @@ app = Flask(__name__)
 
 client = docker.DockerClient(base_url="unix://var/run/docker.sock")
 
-print(client.containers.list())
 @app.route('/')
 def index():
     privkey, pubkey = generate_wireguard_keys()
     # return "private: " + privkey + ", public: " + pubkey + "<br />"
+    containers = client.containers.list()
+    ids = []
+    for c in containers:
+        print(c.id)
+        ids.append(c.id)
     container = client.containers.get("0cb48e392806")
-    return { "0cb48e392806": container.attrs["Config"] }
+    return { "0cb48e392806": container.attrs["Config"], "id": ids }
 
 if __name__ == '__main__':
     app.run()
