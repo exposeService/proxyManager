@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import docker
 import subprocess
 
 def generate_wireguard_keys():
@@ -8,10 +9,15 @@ def generate_wireguard_keys():
 
 app = Flask(__name__)
 
+client = docker.DockerClient(base_url="unix://var/run/docker.sock")
+
+print(client.containers.list())
 @app.route('/')
 def index():
     privkey, pubkey = generate_wireguard_keys()
-    return "private: " + privkey + ", public: " + pubkey
+    # return "private: " + privkey + ", public: " + pubkey + "<br />"
+    container = client.containers.get("0cb48e392806")
+    return { "0cb48e392806": container.attrs["Config"] }
 
 if __name__ == '__main__':
     app.run()
